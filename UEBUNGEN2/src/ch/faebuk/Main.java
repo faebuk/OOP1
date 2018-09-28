@@ -18,7 +18,7 @@ public class Main {
 		System.out.println("vectorLength " + vectorLength(new double[] {4, 6, 2}));
 		System.out.println("addVectors " + Arrays.toString(addVectors(new double[] {3, 2, 1}, new double[] {1, 2, 3})));
 		System.out.println("append " + append("Hallo", new char[] {' ', 'W', 'e', 'l', 't'}));
-		System.out.println("appendStringbuilder " + appendStringbuilder("Hallo", new char[] {' ', 'W', 'e', 'l', 't'}));
+		System.out.println("appendStringbuilder " + append(new StringBuilder("Hallo"), new char[] {' ', 'W', 'e', 'l', 't'}));
 		System.out.println("caesarChiffre " + caesarChiffre("abcdefghijklmnopqrstuvwxyz", 3));
 		System.out.println("removeVocals " + removeVocals("Schifffahrtsgesellschaft"));
 	}
@@ -54,8 +54,8 @@ public class Main {
 				
 		newArray[0] = a;
 		
-		for(int i=1; i < list.length; i++) {
-			newArray[i] = list[i];
+		for(int i=1; i <= list.length; i++) {
+			newArray[i] = list[i - 1];
 		}
 		
 		return newArray;
@@ -204,15 +204,14 @@ public class Main {
 		return finalString;
 	}
 	
-	public static String appendStringbuilder(String s, char[] cArr) {
+	public static String append(StringBuilder s, char[] cArr) {
 		long startTime = System.nanoTime();
 		
-		StringBuilder finalString = new StringBuilder(s);
-		finalString.append(cArr);
+		s.append(cArr);
 		
 		System.out.println("append() duration in nanoseconds: " + (System.nanoTime() - startTime));
 		
-		return finalString.toString();
+		return s.toString();
 	}
 	
 	public static String caesarChiffre(String s, int n) {
