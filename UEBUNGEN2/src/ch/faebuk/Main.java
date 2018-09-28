@@ -16,6 +16,11 @@ public class Main {
 		System.out.println("swap" + Arrays.toString(swap(new double[] {1, 2, 4, 3, 5}, 2, 3)));
 		System.out.println("bubbleSort" + Arrays.toString(bubbleSort(new double[] {1, 6, 2, 5, 10, 7, 100, 60, 23})));
 		System.out.println("vectorLength " + vectorLength(new double[] {4, 6, 2}));
+		System.out.println("addVectors " + Arrays.toString(addVectors(new double[] {3, 2, 1}, new double[] {1, 2, 3})));
+		System.out.println("append " + append("Hallo", new char[] {' ', 'W', 'e', 'l', 't'}));
+		System.out.println("appendStringbuilder " + appendStringbuilder("Hallo", new char[] {' ', 'W', 'e', 'l', 't'}));
+		System.out.println("caesarChiffre " + caesarChiffre("abcdefghijklmnopqrstuvwxyz", 3));
+		System.out.println("removeVocals " + removeVocals("Schifffahrtsgesellschaft"));
 	}
 	
 	public static boolean isEqual(double[] arr1, double[] arr2) {
@@ -174,6 +179,64 @@ public class Main {
 		}
 		
 		return minVector;
+	}
+	
+	public static double[] addVectors(double[] a, double[] b) {
+		double[] resVector = new double[a.length];
+		
+		for(int i = 0;i < a.length; i++) {
+			resVector[i] = a[i] + b[i];
+		}
+		
+		return resVector;
+	}
+	
+	public static String append(String s, char[] cArr) {
+		long startTime = System.nanoTime();
+		String finalString = s;
+		
+		for(char c : cArr) {
+			finalString += c;
+		}
+		
+		System.out.println("append() duration in nanoseconds: " + (System.nanoTime() - startTime));
+		
+		return finalString;
+	}
+	
+	public static String appendStringbuilder(String s, char[] cArr) {
+		long startTime = System.nanoTime();
+		
+		StringBuilder finalString = new StringBuilder(s);
+		finalString.append(cArr);
+		
+		System.out.println("append() duration in nanoseconds: " + (System.nanoTime() - startTime));
+		
+		return finalString.toString();
+	}
+	
+	public static String caesarChiffre(String s, int n) {
+		char[] charArr = s.toCharArray();
+		StringBuilder finalString = new StringBuilder();
+		
+ 		for(int i = 0;i < charArr.length; i++) {
+ 			int asciiPos = (int) charArr[i];
+ 			
+			if(asciiPos + n > (int) 'z') {
+				//overflow handling
+ 				asciiPos = asciiPos + n - (int) 'z' + 96;
+ 			} else {
+ 				asciiPos += n;
+ 			}
+ 			
+ 			finalString.append((char) asciiPos);
+ 		}
+ 		
+ 		return finalString.toString();
+	}
+	
+	public static String removeVocals(String s) {
+		return s.replaceAll("[AEIOUaeiou]", "");
 	}
 
 }
