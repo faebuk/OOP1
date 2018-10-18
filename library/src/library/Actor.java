@@ -1,5 +1,6 @@
+package library;
 
-public class Actor extends Person {
+public final class Actor extends Person {
 
 	public Actor(String firstName, String lastName) {
 		super(firstName, lastName);

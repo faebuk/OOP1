@@ -1,20 +1,21 @@
+package library;
 import java.time.LocalDate;
 
 public class Reservation {
-	private Object object;
+	private Item object;
 	private Customer borrower;
 	private LocalDate reservationDate;
 	
 	
-	public Reservation(Customer borrower, Object object, LocalDate reservationDate) {
+	public Reservation(Customer borrower, Item object, LocalDate reservationDate) {
 		this.object = object;
 		this.borrower = borrower;
 		this.reservationDate = reservationDate;
 	}
-	public Object getObject() {
+	public Item getObject() {
 		return object;
 	}
-	public void setObject(Object object) {
+	public void setObject(Item object) {
 		this.object = object;
 	}
 	public Customer getBorrower() {

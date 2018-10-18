@@ -1,19 +1,21 @@
+package library;
 import java.time.LocalDate;
 
 public class Lending {
-	private Object object;
+	private Item object;
 	private LocalDate startDate;
+	private LocalDate returnDate;
 	private Customer borrower;
 		
-	public Lending(Customer borrower, Object object, LocalDate startDate) {
+	public Lending(Customer borrower, Item object, LocalDate startDate) {
 		this.object = object;
 		this.startDate = startDate;
 		this.borrower = borrower;
 	}
-	public Object getObject() {
+	public Item getObject() {
 		return object;
 	}
-	public void setObject(Object object) {
+	public void setObject(Item object) {
 		this.object = object;
 	}
 	public LocalDate getStartDate() {
@@ -28,6 +30,11 @@ public class Lending {
 	public void setBorrower(Customer borrower) {
 		this.borrower = borrower;
 	}
-	
+	public void setReturnDate(LocalDate returnDate) {
+		this.returnDate = returnDate;		
+	}
+	public LocalDate getReturnDate() {
+		return this.returnDate;
+	}	
 	
 }

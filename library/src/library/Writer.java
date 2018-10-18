@@ -1,5 +1,6 @@
+package library;
 
-public class Writer extends Person {
+public final class Writer extends Person {
 
 	public Writer(String lastName, String firstName) {
 		super(firstName, lastName);
