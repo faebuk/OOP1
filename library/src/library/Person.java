@@ -1,8 +1,8 @@
 package library;
 
 public abstract class Person {
-	final private String firstName;
-	final private String lastName;
+	final protected String firstName;
+	final protected String lastName;
 	
 	public Person(String firstName, String lastName) {
 		this.firstName = firstName;
@@ -46,4 +46,11 @@ public abstract class Person {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + "]";
+	}
+	
+	
 }

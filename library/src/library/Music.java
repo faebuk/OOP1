@@ -1,6 +1,6 @@
 package library;
 
-public final class Music extends Item{
+public final class Music extends DataObject{
 	final private String bandName;
 	final private int length;
 	
@@ -13,7 +13,14 @@ public final class Music extends Item{
 	public String getBandName() {
 		return bandName;
 	}
+		
 	
+	@Override
+	public String toString() {
+		return "Music [bandName=" + bandName + ", length=" + length + ", getArticleNumber()=" + getArticleNumber()
+				+ ", getTitle()=" + getTitle() + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

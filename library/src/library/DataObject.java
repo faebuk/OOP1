@@ -1,6 +1,6 @@
 package library;
 
-public abstract class Item {
+public abstract class DataObject {
 	final private long articleNumber;
 	final private String title;
 	
@@ -21,7 +21,7 @@ public abstract class Item {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Item other = (Item) obj;
+		DataObject other = (DataObject) obj;
 		if (articleNumber != other.articleNumber)
 			return false;
 		if (title == null) {
@@ -32,7 +32,7 @@ public abstract class Item {
 		return true;
 	}
 
-	public Item(long articleNumber, String title){
+	public DataObject(long articleNumber, String title){
 		this.articleNumber = articleNumber;
 		this.title = title;
 	}

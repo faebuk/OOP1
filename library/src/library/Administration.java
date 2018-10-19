@@ -2,13 +2,13 @@ package library;
 import java.time.LocalDate;
 
 public class Administration {
-	private Item[] objects;
+	private DataObject[] objects;
 	private Lending[] lendings;
 	private Reservation[] reservations;
 	private Customer[] customers;
 
 	public Administration() {
-		objects = new Item[20];
+		objects = new DataObject[20];
 		lendings = new Lending[20];
 		reservations = new Reservation[20];
 		customers = new Customer[20];
@@ -22,7 +22,7 @@ public class Administration {
 		return reservations;
 	}
 
-	public Item[] getObjects() {
+	public DataObject[] getDataObjects() {
 		return objects;
 	}
 
@@ -84,7 +84,7 @@ public class Administration {
 	}
 	
 	public Journal findJournal(long articleNumber) {
-		Item object = this.findItem(articleNumber);
+		DataObject object = this.findDataObject(articleNumber);
 		
 		if(object instanceof Journal) {
 			return (Journal)object;
@@ -94,7 +94,7 @@ public class Administration {
 	}
 	
 	public Journal findJournal(String title) {
-		Item object = this.findItem(title);
+		DataObject object = this.findDataObject(title);
 		
 		if(object instanceof Journal) {
 			return (Journal)object;
@@ -104,7 +104,7 @@ public class Administration {
 	}
 	
 	public Book findBook(String title) {
-		Item object = this.findItem(title);
+		DataObject object = this.findDataObject(title);
 		
 		if(object instanceof Book) {
 			return (Book)object;
@@ -114,7 +114,7 @@ public class Administration {
 	}
 	
 	public Book findBook(Writer writer) {
-		for(Item object : this.objects) {
+		for(DataObject object : this.objects) {
 			if(object instanceof Book && ((Book) object).getWriter().equals(writer)) {
 				return (Book)object;
 			}
@@ -124,7 +124,7 @@ public class Administration {
 	}
 	
 	public Film findFilm(String title) {
-		Item object = this.findItem(title);
+		DataObject object = this.findDataObject(title);
 		
 		if(object instanceof Film) {
 			return (Film)object;
@@ -134,7 +134,7 @@ public class Administration {
 	}
 	
 	public Film findFilm(Actor searchActor) {
-		for(Item object : this.objects) {
+		for(DataObject object : this.objects) {
 			if(object instanceof Film) {
 				for(Actor actor : ((Film) object).getActors()) {
 					if(actor.equals(searchActor)) {
@@ -148,7 +148,7 @@ public class Administration {
 	}
 	
 	public Music findMusic(String band) {
-		for(Item object : this.objects) {
+		for(DataObject object : this.objects) {
 			if(object instanceof Music && ((Music) object).getBandName().equals(band)){
 				return (Music)object;
 			}
@@ -157,8 +157,8 @@ public class Administration {
 		return null;
 	}
 	
-	private Item findItem(String title) {
-		for(Item object : this.objects) {
+	private DataObject findDataObject(String title) {
+		for(DataObject object : this.objects) {
 			if(object != null && object.getTitle().equals(title)) {
 				return object;
 			}
@@ -167,8 +167,8 @@ public class Administration {
 		return null;
 	}
 	
-	private Item findItem(long articleNumber) {
-		for(Item object : this.objects) {
+	private DataObject findDataObject(long articleNumber) {
+		for(DataObject object : this.objects) {
 			if(object != null && object.getArticleNumber() == articleNumber) {
 				return object;
 			}
@@ -178,24 +178,24 @@ public class Administration {
 	}
 	
 	public boolean isBookAvailable(Book book) {
-		return this.isItemAvailable(book);
+		return this.isObjectAvailable(book);
 	}
 	
 	public boolean isJournalAvailable(Journal journal) {
-		return this.isItemAvailable(journal);
+		return this.isObjectAvailable(journal);
 	}
 	
 	public boolean isFilmAvailable(Film film) {
-		return this.isItemAvailable(film);
+		return this.isObjectAvailable(film);
 	}
 	
 	public boolean isMusicAvailable(Music music) {
-		return this.isItemAvailable(music);
+		return this.isObjectAvailable(music);
 	}
 	
-	private boolean isItemAvailable(Item object) {
+	private boolean isObjectAvailable(DataObject object) {
 		for(Lending lending : this.lendings) {
-			if(lending.getObject().equals(object) && lending.getReturnDate() == null) {
+			if(lending.getDataObject().equals(object) && lending.getReturnDate() == null) {
 				return false;
 			}
 		}
@@ -203,24 +203,14 @@ public class Administration {
 		return true;
 	}
 	
-	public LocalDate getLendingEndDate(Item object) {
+	public LocalDate getLendingEndDate(DataObject object) {
 		Lending lastLending = null;
 		
 		for(Lending lending : lendings) {
-			if(lending.getObject().equals(object) && (lastLending == null || lending.getStartDate().isAfter(lastLending.getStartDate()))) {
+			if(lending.getDataObject().equals(object) && (lastLending == null || lending.getStartDate().isAfter(lastLending.getStartDate()))) {
 				lastLending = lending;
 			}
 		}
-		
-		/*for(Lending lending : lendings) {
-			if(lending.getObject().equals(object) && lending.getReturnDate() != null) {
-				return lending.getReturnDate();
-			}
-			
-			if(lending.getObject().equals(object) && lending.getStartDate() != null) {
-				return lending.getStartDate().minusMonths(-1);
-			}
-		}*/
 		
 		if(lastLending != null && lastLending.getReturnDate() != null) {
 			return lastLending.getReturnDate();
@@ -228,8 +218,7 @@ public class Administration {
 		
 		if(lastLending != null && lastLending.getStartDate() != null) {
 			return lastLending.getStartDate().minusMonths(-1);
-		}
-		
+		}		
 		
 		return LocalDate.now();
 	}

@@ -2,7 +2,7 @@ package library;
 
 import java.util.Arrays;
 
-public final class Film extends Item {
+public final class Film extends DataObject {
 	final private Actor[] actors = new Actor[3];
 	final private String publisher;
 	final private int length;
@@ -12,6 +12,15 @@ public final class Film extends Item {
 		this.publisher = publisher;
 		this.length = length;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "Film [actors=" + Arrays.toString(actors) + ", publisher=" + publisher + ", length=" + length
+				+ ", getArticleNumber()=" + getArticleNumber() + ", getTitle()=" + getTitle() + "]";
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

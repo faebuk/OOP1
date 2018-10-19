@@ -16,13 +16,13 @@ import library.*;
 
 class LibraryTests {
 	private Administration admin;
-	private Item[] objects;
+	private DataObject[] objects;
 	private Lending[] lendings;
 
 	@BeforeEach
 	private void setUp() {
 		admin = TestSetUp.testSetUp();
-		objects = admin.getObjects();
+		objects = admin.getDataObjects();
 		lendings = admin.getLendings();
 	}
 
@@ -157,11 +157,62 @@ class LibraryTests {
 	
 	@Test
 	void ex21Test() {
-		assertNotEquals(new Film(1, "", "", 0), new Film(1, "", "", 0));
+		//Film
+		assertTrue(objects[10] instanceof DataObject);
 	}
 	
 	@Test
 	void ex22Test() {
-		assertNotEquals(new String("Sollte nicht gleich sein, falls das bei Immutable der Fall"),new String("Sollte nicht gleich sein, falls das bei Immutable der Fall"));
+		//Music
+		assertTrue(objects[7] instanceof DataObject);
 	}
+	
+	@Test
+	void ex23Test() {
+		//Book
+		assertTrue(objects[1] instanceof DataObject);
+	}
+	
+	@Test
+	void ex24Test() {
+		//Book
+		assertTrue(objects[1] instanceof PrintMedium);
+	}
+	
+	@Test
+	void ex25Test() {
+		assertTrue(new Customer("Küng", "Fabian", "faebuk@gmail.com") instanceof Person);
+	}
+	
+	@Test
+	void ex26Test() {
+		assertTrue(new Writer("Küng", "Fabian") instanceof Person);
+	}
+	
+	@Test
+	void ex27Test() {
+		assertTrue(new Actor("Küng", "Fabian") instanceof Person);
+	}
+	
+	@Test
+	void ex28Test() {
+		//Journal
+		assertTrue(objects[11] instanceof PrintMedium);
+	}
+	
+	@Test
+	void ex29Test() {
+		//Journal
+		assertTrue(objects[11] instanceof DataObject);
+	}
+	
+	/*@Test
+	void ex21Test() {
+		assertNotEquals(new Film(1, "", "", 0), new Film(1, "", "", 0));
+	}*/
+	
+	/*@Test
+	void ex22Test() {
+		assertNotEquals(new String("Sollte nicht gleich sein, falls das bei Immutable der Fall"),new String("Sollte nicht gleich sein, falls das bei Immutable der Fall"));
+	}*/
 }
