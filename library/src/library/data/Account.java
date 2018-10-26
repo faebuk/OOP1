@@ -1,4 +1,4 @@
-package library;
+package library.data;
 
 public class Account {
 	private int balance;

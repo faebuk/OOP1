@@ -1,4 +1,4 @@
-package library;
+package library.data;
 
 public final class Book extends PrintMedium {
 	final private Writer writer;

@@ -1,4 +1,4 @@
-package library;
+package library.data;
 import java.time.LocalDate;
 
 public class Reservation {

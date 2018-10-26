@@ -1,8 +1,93 @@
-package library;
+package library.admin;
 import java.time.LocalDate;
 
+import library.data.Actor;
+import library.data.BookItem;
+import library.data.Customer;
+import library.data.DataObject;
+import library.data.FilmItem;
+import library.data.Item;
+import library.data.JournalItem;
+import library.data.MusicItem;
+import library.data.Reservation;
+import library.data.Writer;
+
 public class Administration {
-	private DataObject[] objects;
+	private LendingManager lendingManager;
+	private DataManager dataManager;
+	
+	private static Administration instance;
+	
+	private Administration() {
+		this.lendingManager = new LendingManager();
+		this.dataManager = new DataManager();
+	}
+	
+	public static synchronized Administration getInstance() {
+		if(instance == null) {
+			instance = new Administration();
+		}
+		
+		return instance;
+	}
+	
+	public DataObject[] getDataObjects(){
+		return this.dataManager.getDataObjects();
+	}
+	
+	public BookItem[] getBookItems() {
+		return this.dataManager.getBookItems();
+	}
+	
+	public FilmItem[] getFilmItems() {
+		return this.dataManager.getFilmItems();
+	}
+	
+	public MusicItem[] getMusicItems() {
+		return this.dataManager.getMusicItems();
+	}
+	
+	public JournalItem[] getJournalItems() {
+		return this.dataManager.getJournalItems();
+	}
+	
+	public long[] findBookItems(Writer writer) {
+		return this.dataManager.findBookItems(writer);
+	}
+	
+	public long[] findMusicItems(String string) {
+		return this.dataManager.findMusicItems(string);
+	}
+	
+	public DataObject findDataObject(String title){
+		return this.dataManager.findDataObject(title);
+	}
+	
+	public long[] findItems(String title) {
+		return this.dataManager.findItems(title);
+	}
+	
+	public long[] findFilmItems(Actor actor) {
+		return this.dataManager.findFilmItems(actor);
+	}
+	
+	public boolean isItemAvailable(Item item) {
+		return this.lendingManager.isItemAvailable(item);
+	}
+	
+	public LocalDate getLendingEndDate(Item item) {
+		return this.lendingManager.getLendingEndDate(item);
+	}
+	
+	public void addLending(Customer customer, Item item, LocalDate date) {
+		this.lendingManager.addLending(customer, item, date);
+	}
+	
+	public void returnItem(Item item, LocalDate date) {
+		this.lendingManager.returnItem(item, date);
+	}
+	
+	/*private DataObject[] objects;
 	private Lending[] lendings;
 	private Reservation[] reservations;
 	private Customer[] customers;
@@ -221,6 +306,6 @@ public class Administration {
 		}		
 		
 		return LocalDate.now();
-	}
+	}*/
 	
 }

@@ -1,4 +1,4 @@
-package library;
+package library.data;
 
 public final class Writer extends Person {
 
