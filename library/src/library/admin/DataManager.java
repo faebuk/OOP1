@@ -1,10 +1,7 @@
 package library.admin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 import library.data.Actor;
 import library.data.BookItem;
@@ -15,145 +12,196 @@ import library.data.Item;
 import library.data.JournalItem;
 import library.data.MusicItem;
 import library.data.Writer;
-import library.util.Util;
 
 public class DataManager {
-	private Collection<Customer> customers;	
-	
-	private DataObject[] dataObjects;
-	
-	private BookItem[] bookItems;
-	private MusicItem[] musicItems;
-	private FilmItem[] filmItems;
-	private JournalItem[] journalItems;
-	
-	public DataManager() {
-		this.customers = new ArrayList<>();
-		this.dataObjects = new DataObject[44];
-		this.bookItems = new BookItem[14];
-		this.musicItems = new MusicItem[12];
-		this.filmItems = new FilmItem[6];
-		this.journalItems = new JournalItem[12];		
-	}
-	
-	public DataObject[] getDataObjects() {
-		return this.dataObjects;
-	}
-	
-	public Customer[] getCustomers() {
-		return (Customer[]) this.customers.toArray();
-	}
-	
-	public BookItem[] getBookItems() {
-		return this.bookItems;
+    private Customer[] customers;
+    private BookItem[] bookItems;
+    private FilmItem[] filmItems;
+    private MusicItem[] musicItems;
+    private JournalItem[] journalItems;
+
+    public DataManager() {
+	customers = new Customer[20];
+	bookItems = new BookItem[30];
+	filmItems = new FilmItem[30];
+	musicItems = new MusicItem[30];
+	journalItems = new JournalItem[30];
+    }
+
+    public long[] findItemsByArticleNumber(long ean) {
+	List<Long> ids = new ArrayList<>();
+
+	Item[] allItems = Utils.concat(bookItems, musicItems, filmItems, journalItems);
+
+	for (Item item : allItems) {
+	    if (item.getDataObject().getArticleNumber() == ean) {
+		ids.add(item.getId());
+	    }
 	}
 
-	public FilmItem[] getFilmItems() {
-		return this.filmItems;
-	}
-	
-	public MusicItem[] getMusicItems() {
-		return this.musicItems;
-	}
-	
-	public JournalItem[] getJournalItems() {
-		return this.journalItems;
-	}
-	
-	public Item isDataObjectAvailable(DataObject obj) {
-		Item[] allItems = Util.concat(bookItems, musicItems, filmItems, journalItems);
-		
-		for(Item item : allItems) {
-			if(item.getDataObject().equals(obj)) {
-				return item;
-			}
-		}
-		 
-		return null;
-	}
-	
-	public DataObject findDataObject(long articleNumber) {
-		for(DataObject obj : this.dataObjects) {
-			if(obj.getArticleNumber() == articleNumber) {
-				return obj;
-			}
-		}
-		
-		return null;
+	return Utils.convertToArray(ids);
+    }
+
+    public long[] findItems(String s) {
+	long[] result = null;
+	result = Utils.concat(result, findBookItems(s));
+	result = Utils.concat(result, findMusicItems(s));
+	result = Utils.concat(result, findFilmItems(s));
+	result = Utils.concat(result, findJournalItems(s));
+	return result;
+    }
+
+    public Item findItem(long id) {
+	Item[] allItems = Utils.concat(bookItems, musicItems, filmItems, journalItems);
+
+	for (Item item : allItems) {
+	    if (item.getId() == id) {
+		return item;
+	    }
 	}
 
-	public DataObject findDataObject(String title) {
-		for(DataObject obj : this.dataObjects) {
-			if(obj.getTitle().equals(title)) {
-				return obj;
-			}
-		}
-		
-		return null;
-	}
-	
-	public long[] findItems(String title) {
-		List<Long> ids = new ArrayList<>();
-		
-		Item[] allItems = Util.concat(bookItems, musicItems, filmItems, journalItems);
-		
-		for(Item item : allItems) {
-			if(item.getDataObject().getTitle().equals(title)) {
-				ids.add(item.getId());
-			}
-		}
-		 
-		return convertToArray(ids);
-	}
-	
-	private long[] convertToArray(List<Long> list) {
-		long[] longIds = new long[list.size()];		
-		int counter = 0;
-		for(Long id : list) {
-			longIds[counter] = id;
-			counter++;
-		}
-				
-		return longIds;
-	}
-	
-	public long[] findBookItems(Writer writer) {
-		List<Long> ids = new ArrayList<>();
-		
-		for(BookItem item : this.bookItems) {
-			if(item.getBook().getWriter().equals(writer)) {
-				ids.add(item.getId());
-			}
-		}		
-		 
-		return convertToArray(ids);
-	}
-	
-	public long[] findFilmItems(Actor actor) {
-		List<Long> ids = new ArrayList<>();
-		
-		for(FilmItem item : this.filmItems) {
-			for(Actor itemActor : item.getFilm().getActors()) {
-				if(itemActor != null && itemActor.equals(actor)) {
-					ids.add(item.getId());
-				}
-			}
-		}
-		 
-		return convertToArray(ids);
-	}
-	
-	public long[] findMusicItems(String band) {
-		List<Long> ids = new ArrayList<>();
-		
-		for(MusicItem item : this.musicItems) {
-			if(item.getMusic().getBandName().equals(band)) {
-				ids.add(item.getId());
-			}
-		}
-		 
-		return convertToArray(ids);
+	return null;
+    }
+
+    // TODO
+    public <T> long[] findItems(Class<T> type, String string) {
+	List<Long> ids = new ArrayList<>();
+
+	for (long id : this.findItems(string)) {
+	    DataObject object = this.findItem(id).getDataObject();
+
+	    if (type.isInstance(object)) {
+		ids.add(id);
+	    }
 	}
 
+	return Utils.convertToArray(ids);
+    }
 
+    public long[] findItems(String title, Actor actor) {
+	List<Long> ids = new ArrayList<>();
+
+	for (FilmItem item : filmItems) {
+	    if (this.contains(item.getFilm().getActors(), actor) && item.getFilm().getTitle().equals(title)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    public long[] findItems(Writer writer) {
+	List<Long> ids = new ArrayList<>();
+
+	for (BookItem item : bookItems) {
+	    if (item.getBook().getWriter().equals(writer)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    public long[] findItems(Actor actor) {
+	List<Long> ids = new ArrayList<>();
+
+	for (FilmItem item : filmItems) {
+	    if (this.contains(item.getFilm().getActors(), actor)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    private long[] findBookItems(String title) {
+	List<Long> ids = new ArrayList<>();
+
+	for (BookItem item : bookItems) {
+	    if (item.getBook().getTitle().equals(title)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    private long[] findMusicItems(String s) {
+	List<Long> ids = new ArrayList<>();
+
+	for (MusicItem item : musicItems) {
+	    if (item.getMusic().getTitle().equals(s) || item.getMusic().getBand().equals(s)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    private long[] findFilmItems(String s) {
+	List<Long> ids = new ArrayList<>();
+
+	for (FilmItem item : filmItems) {
+	    if (item.getFilm().getPublisher().equals(s) || item.getFilm().getTitle().equals(s)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    private long[] findJournalItems(String s) {
+	List<Long> ids = new ArrayList<>();
+
+	for (JournalItem item : journalItems) {
+	    if (item.getJournal().getPublisher().equals(s) || item.getJournal().getTitle().equals(s)) {
+		ids.add(item.getId());
+	    }
+	}
+
+	return Utils.convertToArray(ids);
+    }
+
+    private boolean contains(Actor[] actors, Actor actor) {
+	for (Actor a : actors) {
+	    if (a != null && a.equals(actor))
+		return true;
+	}
+	return false;
+    }
+
+    public void printItems() {
+	for (BookItem e : bookItems) {
+	    System.out.println(e.toString());
+	}
+	for (MusicItem e : musicItems) {
+	    System.out.println(e.toString());
+	}
+	for (FilmItem e : filmItems) {
+	    System.out.println(e.toString());
+	}
+	for (JournalItem e : journalItems) {
+	    System.out.println(e.toString());
+	}
+    }
+
+    public Customer[] getCustomers() {
+	return customers;
+    }
+
+    public BookItem[] getBookItems() {
+	return bookItems;
+    }
+
+    public FilmItem[] getFilmItems() {
+	return filmItems;
+    }
+
+    public MusicItem[] getMusicItems() {
+	return musicItems;
+    }
+
+    public JournalItem[] getJournalItems() {
+	return journalItems;
+    }
 }

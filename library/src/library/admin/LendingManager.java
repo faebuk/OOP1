@@ -10,78 +10,70 @@ import library.data.Lending;
 import library.data.State;
 
 public class LendingManager {
-	private int lendingCounter = 0;
-	
-	private List<Lending> lendings;
-	
-	public LendingManager() {
-		this.lendings = new ArrayList<>();
+    private Lending[] lendings;
+    private int lendingCounter = 0;
+
+    public LendingManager() {
+	lendings = new Lending[50];
+    }
+
+    public Lending[] getLendings() {
+	return lendings;
+    }
+
+    public boolean addLending(Customer customer, Item item, LocalDate date) {
+	if (!item.isAvailable()) {
+	    return false;
 	}
-	
-	public Lending[] getLendings() {
-		return (Lending[]) this.lendings.toArray();
+
+	item.setState(State.LENT);
+	item.setLending(new Lending(customer, item, date));
+
+	return true;
+    }
+
+    public boolean returnItem(Item item, LocalDate date) {
+	item.setState(State.AVAILABLE);
+	item.getLending().setReturnDate(date);
+
+	return true;
+    }
+
+    public boolean isAvailable(Item item) {
+	return item.isAvailable();
+    }
+
+    public long[] getAvailableItems(long[] ids) {
+	List<Long> result = new ArrayList<>();
+
+	Administration admin = Administration.getInstance();
+
+	for (long id : ids) {
+	    if (admin.findItem(id).isAvailable()) {
+		result.add(id);
+	    }
 	}
-	
-	public boolean isItemAvailable(Item item) {
-		boolean itemWasLentOut = false;
-		for(Lending lending : lendings) {
-			if(lending.getItem().equals(item)) {
-				itemWasLentOut = true;
-				
-				//item wurde zwar schon ausgeliehen, ist aber wieder verfügbar
-				if(lending.getItem().isAvailable()) {
-					return true;
-				}
-			}
-		}
-		
-		//item wurde noch nie ausgeliehen
-		if(!itemWasLentOut) {
-			return true;
-		}
-		
-		return false;
+
+	return Utils.convertToArray(result);
+    }
+
+    public LocalDate getLendingEndDate(Item item) {
+	Lending lending = item.getLending();
+	if (lending != null)
+	    return lending.getReturnDate();
+	return LocalDate.now();
+    }
+
+    public LocalDate getTimeLimit(Item item) {
+	Lending lending = item.getLending();
+	if (lending != null)
+	    return lending.getTimeLimit();
+	return LocalDate.now();
+    }
+
+    public void printLendings() {
+	for (Lending l : lendings) {
+	    System.out.println(l.toString());
 	}
-	
-	public boolean addLending(Customer customer, Item item, LocalDate date) {
-		if(item.isAvailable()) {
-			this.lendings.add(new Lending(customer, item, date));
-		} else {
-			return false;
-		}		
-		
-		return true;
-	}
-	
-	public boolean returnItem(Item item, LocalDate date) {
-		for(Lending lending : this.lendings) {
-			if(lending.getItem().equals(item) && lending.getReturnDate() == null) {
-				lending.setReturnDate(date);
-				lending.getItem().setState(State.AVAILABE);
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public LocalDate getLendingEndDate(Item item) {
-		Lending lastLending = null;
-		
-		for(Lending lending : lendings) {
-			if(lending.getItem().equals(item) && (lastLending == null || lending.getStartDate().isAfter(lastLending.getStartDate()))) {
-				lastLending = lending;
-			}
-		}
-		
-		if(lastLending != null && lastLending.getReturnDate() != null) {
-			return lastLending.getReturnDate();
-		}
-		
-		if(lastLending != null && lastLending.getStartDate() != null) {
-			return lastLending.getStartDate().minusMonths(-1);
-		}		
-		
-		return LocalDate.now();
-	}
+    }
 }

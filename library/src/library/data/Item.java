@@ -11,7 +11,7 @@ public class Item {
 		this.id = id;
 		this.object = object;
 		
-		this.state = State.AVAILABE;
+		this.state = State.AVAILABLE;
 	}
 	
 	public DataObject getDataObject() {
@@ -23,7 +23,7 @@ public class Item {
 	}
 	
 	public boolean isAvailable() {
-		if(state == State.AVAILABE) {
+		if(state == State.AVAILABLE) {
 			return true;
 		}
 		

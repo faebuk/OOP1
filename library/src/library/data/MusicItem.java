@@ -5,7 +5,7 @@ public class MusicItem extends Item {
 
 	public MusicItem(long id, Music music) {
 		super(id, music);
-		this.music = (Music) this.getDataObject();
+		this.music = music;
 	}
 
 	public Music getMusic() {
@@ -14,7 +14,6 @@ public class MusicItem extends Item {
 
 	@Override
 	public String toString() {
-		return "MusicItem [music=" + music + ", getId()=" + getId() + ", isAvailable()=" + isAvailable()
-				+ ", getLending()=" + getLending() + "]";
+		return "Music: " + music + super.toString();
 	}
 }

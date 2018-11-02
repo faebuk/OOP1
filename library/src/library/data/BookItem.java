@@ -5,8 +5,8 @@ public class BookItem extends Item {
 
 	public BookItem(long id, Book book) {
 		super(id, book);
-		this.book = (Book) this.getDataObject();
-	}
+		this.book = book;
+	}	
 
 	public Book getBook() {
 		return book;
@@ -14,7 +14,6 @@ public class BookItem extends Item {
 
 	@Override
 	public String toString() {
-		return "BookItem [book=" + book + ", getId()=" + getId() + ", isAvailable()=" + isAvailable()
-				+ ", getLending()=" + getLending() + "]";
+		return "Book: " + book + super.toString();
 	}
 }

@@ -2,12 +2,10 @@ package library.data;
 
 public class JournalItem extends Item {
 	private Journal journal;
-	
-	
 
 	public JournalItem(long id, Journal journal) {
 		super(id, journal);
-		this.journal = (Journal) this.getDataObject();
+		this.journal = journal;
 	}
 
 	public Journal getJournal() {
@@ -16,7 +14,6 @@ public class JournalItem extends Item {
 
 	@Override
 	public String toString() {
-		return "JournalItem [journal=" + journal + ", getId()=" + getId() + ", isAvailable()=" + isAvailable()
-				+ ", getLending()=" + getLending() + "]";
+		return "Journal: " + journal + super.toString();
 	}
 }

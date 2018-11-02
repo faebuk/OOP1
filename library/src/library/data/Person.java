@@ -1,56 +1,44 @@
 package library.data;
 
-public abstract class Person {
-	final protected String firstName;
-	final protected String lastName;
-	
-	public Person(String firstName, String lastName) {
-		this.firstName = firstName;
+public class Person {
+
+	protected String lastName;
+	protected String firstName;
+
+	public Person(String lastName, String firstName) {
 		this.lastName = lastName;
+		this.firstName = firstName;
 	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
+
 	public String getLastName() {
 		return lastName;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		return result;
+	public String getFirstName() {
+		return firstName;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Person other = (Person) obj;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (obj instanceof Writer) {
+			Person p = (Person) obj;
+			if (p.firstName != firstName)
 				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
+			if (p.lastName != lastName)
 				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		return true;
+			else
+				return true;
+		}
+		return false;
 	}
 
 	@Override
 	public String toString() {
-		return "Person [firstName=" + firstName + ", lastName=" + lastName + "]";
+		
+
+
+		
+		return "lastName=" + lastName + ", firstName=" + firstName;
 	}
-	
 	
 }
