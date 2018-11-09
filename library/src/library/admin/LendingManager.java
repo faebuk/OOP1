@@ -32,6 +32,17 @@ public class LendingManager {
 	return true;
     }
 
+    public boolean addLending(Lending lending) {
+	if (!lending.getItem().isAvailable()) {
+	    return false;
+	}
+
+	lending.getItem().setState(State.LENT);
+	lending.getItem().setLending(lending);
+
+	return true;
+    }
+
     public boolean returnItem(Item item, LocalDate date) {
 	item.setState(State.AVAILABLE);
 	item.getLending().setReturnDate(date);

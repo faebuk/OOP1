@@ -12,86 +12,101 @@ import library.data.MusicItem;
 import library.data.Writer;
 
 public class Administration {
+    private DataManager dataManager;
+    private LendingManager lendingManager;
 
-	private DataManager dataManager;
-	private LendingManager lendingManager;
+    private static Administration instance;
 
-	private static Administration instance;
-
-	public static Administration getInstance() {
-		if (instance == null) {
-			instance = new Administration();
-		}
-		return instance;
+    public static Administration getInstance() {
+	if (instance == null) {
+	    instance = new Administration();
 	}
+	return instance;
+    }
 
-	private Administration() {
-		dataManager = new DataManager();
-		lendingManager = new LendingManager();
-	}
+    private Administration() {
+	dataManager = new DataManager();
+	lendingManager = new LendingManager();
+    }
 
-	public Item findItem(long id) {
-		return dataManager.findItem(id);
-	}
+    public DataManager getDataManager() {
+	return dataManager;
+    }
 
-	public long[] findItemByArticleNumber(long ean) {
-		return dataManager.findItemsByArticleNumber(ean);
-	}
+    public LendingManager getLendingManager() {
+	return lendingManager;
+    }
 
-	public long[] findItems(String title) {
-		return dataManager.findItems(title);
-	}
+    public Item findItem(long id) {
+	return dataManager.findItem(id);
+    }
 
-	public long[] findItems(Writer writer) {
-		return dataManager.findItems(writer);
-	}
+    public long[] findItemByArticleNumber(long ean) {
+	return dataManager.findItemsByArticleNumber(ean);
+    }
 
-	public long[] findItems(Actor actor) {
-		return dataManager.findItems(actor);
-	}
+    public long[] findItems(String title) {
+	return dataManager.findItems(title);
+    }
 
-	public <T> long[] findItems(Class<T> type, String string) {
-		return dataManager.findItems(type, string);
-	}
+    public long[] findItems(Writer writer) {
+	return dataManager.findItems(writer);
+    }
 
-	public boolean isAvailable(Item item) {
-		return lendingManager.isAvailable(item);
-	}
+    public long[] findItems(Actor actor) {
+	return dataManager.findItems(actor);
+    }
 
-	public long[] getAvailableItems(long[] ids) {
-		return lendingManager.getAvailableItems(ids);
-	}
+    public <T> long[] findItems(Class<T> type, String string) {
+	return dataManager.findItems(type, string);
+    }
 
-	public LocalDate getLendingEndDate(Item item) {
-		return lendingManager.getLendingEndDate(item);
-	}
+    public boolean isAvailable(Item item) {
+	return lendingManager.isAvailable(item);
+    }
 
-	public LocalDate getTimeLimit(Item item) {
-		return lendingManager.getTimeLimit(item);
-	}
+    public long[] getAvailableItems(long[] ids) {
+	return lendingManager.getAvailableItems(ids);
+    }
 
-	public void addLending(Customer customer, Item item, LocalDate date) {
-		lendingManager.addLending(customer, item, date);
-	}
+    public LocalDate getLendingEndDate(Item item) {
+	return lendingManager.getLendingEndDate(item);
+    }
 
-	public void returnItem(Item item, LocalDate date) {
-		lendingManager.returnItem(item, date);
-	}
+    public LocalDate getTimeLimit(Item item) {
+	return lendingManager.getTimeLimit(item);
+    }
 
-	public BookItem[] getBookItems() {
-		return dataManager.getBookItems();
-	}
+    public void addLending(Customer customer, Item item, LocalDate date) {
+	lendingManager.addLending(customer, item, date);
+    }
 
-	public FilmItem[] getFilmItems() {
-		return dataManager.getFilmItems();
-	}
+    public void returnItem(Item item, LocalDate date) {
+	lendingManager.returnItem(item, date);
+    }
 
-	public MusicItem[] getMusicItems() {
-		return dataManager.getMusicItems();
-	}
+    public BookItem[] getBookItems() {
+	return dataManager.getBookItems();
+    }
 
-	public JournalItem[] getJournalItems() {
-		return dataManager.getJournalItems();
-	}
+    public FilmItem[] getFilmItems() {
+	return dataManager.getFilmItems();
+    }
+
+    public MusicItem[] getMusicItems() {
+	return dataManager.getMusicItems();
+    }
+
+    public JournalItem[] getJournalItems() {
+	return dataManager.getJournalItems();
+    }
+
+    public void setCustomers(Customer[] customers) {
+	this.dataManager.setCustomers(customers);
+    }
+
+    public Customer[] getCustomers() {
+	return this.dataManager.getCustomers();
+    }
 
 }

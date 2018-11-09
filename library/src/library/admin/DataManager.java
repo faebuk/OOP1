@@ -185,6 +185,14 @@ public class DataManager {
 	}
     }
 
+    public Item[] getAllItems() {
+	return Utils.concat(bookItems, musicItems, filmItems, journalItems);
+    }
+
+    public void setCustomers(Customer[] customers) {
+	this.customers = customers;
+    }
+
     public Customer[] getCustomers() {
 	return customers;
     }

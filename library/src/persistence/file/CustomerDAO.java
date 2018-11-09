@@ -1,4 +1,4 @@
-package persistence;
+package persistence.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,8 +10,9 @@ import java.util.logging.Logger;
 import library.data.Book;
 import library.data.Customer;
 import library.data.DataObject;
+import persistence.ICustomerDAO;
 
-public class CustomerDAO extends DAO implements Mapper {
+public class CustomerDAO extends FileDAO implements Mapper, ICustomerDAO {
 	private Customer[] customers;
 	private static final Logger logger = Logger.getLogger(CustomerDAO.class.getName());
 
@@ -37,6 +38,10 @@ public class CustomerDAO extends DAO implements Mapper {
 		logger.info(text.substring(text.indexOf(":") + 1));
 	}
 	
+	/* (non-Javadoc)
+	 * @see persistence.ICustomerDAO#getCustomers()
+	 */
+	@Override
 	public Customer[] getCustomers() {
 		if (customers == null)
 			loadCustomers();

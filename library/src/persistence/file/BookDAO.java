@@ -1,4 +1,4 @@
-package persistence;
+package persistence.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,8 +12,9 @@ import library.data.Book;
 import library.data.DataObject;
 import library.data.Film;
 import library.data.Writer;
+import persistence.IBookDAO;
 
-public class BookDAO extends DAO implements Mapper {
+public class BookDAO extends FileDAO implements Mapper, IBookDAO {
 	private Book[] books;
 	private static final Logger logger = Logger.getLogger(CustomerDAO.class.getName());
 
@@ -39,6 +40,10 @@ public class BookDAO extends DAO implements Mapper {
 		logger.info(text.substring(text.indexOf(":") + 1));
 	}
 	
+	/* (non-Javadoc)
+	 * @see persistence.IBookDAO#getBooks()
+	 */
+	@Override
 	public Book[] getBooks() {
 		if (books == null)
 			loadBooks();

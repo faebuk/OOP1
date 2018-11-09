@@ -1,11 +1,12 @@
-package persistence;
+package persistence.file;
 
 import java.io.File;
 import java.util.List;
 
 import library.data.Journal;
+import persistence.IJournalDAO;
 
-public class JournalDAO extends DAO implements Mapper {
+public class JournalDAO extends FileDAO implements Mapper, IJournalDAO {
     private Journal[] journals;
 
     public JournalDAO(File journalFile, String delimiter) {
@@ -25,6 +26,10 @@ public class JournalDAO extends DAO implements Mapper {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see persistence.IJournalDAO#getJournals()
+     */
+    @Override
     public Journal[] getJournals() {
 	if (journals == null)
 	    loadJournals();

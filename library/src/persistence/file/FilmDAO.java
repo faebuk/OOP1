@@ -1,4 +1,4 @@
-package persistence;
+package persistence.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,8 +10,9 @@ import java.util.logging.Logger;
 import library.data.Actor;
 import library.data.DataObject;
 import library.data.Film;
+import persistence.IFilmDAO;
 
-public class FilmDAO extends DAO implements Mapper {
+public class FilmDAO extends FileDAO implements Mapper, IFilmDAO {
 	private Film[] films;
 	
 	public FilmDAO(File filmFile, String delimiter) {
@@ -50,6 +51,10 @@ public class FilmDAO extends DAO implements Mapper {
 		return film;
 	}
 
+	/* (non-Javadoc)
+	 * @see persistence.IFilmDAO#getFilms()
+	 */
+	@Override
 	public Film[] getFilms() {
 		if (films == null)
 			loadFilms();

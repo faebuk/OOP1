@@ -1,4 +1,4 @@
-package persistence;
+package persistence.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,12 +10,12 @@ import java.util.logging.Logger;
 
 import library.data.DataObject;
 
-public abstract class DAO {
+public abstract class FileDAO {
 	private File file;
 	private String delimiter;
 	protected Logger logger = Logger.getLogger(getClass().getName());
 	
-	public DAO(File file, String delimiter) {
+	public FileDAO(File file, String delimiter) {
 		this.file = file;
 		this.delimiter = delimiter;
 	}

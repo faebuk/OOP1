@@ -1,11 +1,12 @@
-package persistence;
+package persistence.file;
 
 import java.io.File;
 import java.util.List;
 
 import library.data.Music;
+import persistence.IMusicDAO;
 
-public class MusicDAO extends DAO implements Mapper {
+public class MusicDAO extends FileDAO implements Mapper, IMusicDAO {
     private Music[] musics;
 
     public MusicDAO(File musicFile, String delimiter) {
@@ -30,6 +31,10 @@ public class MusicDAO extends DAO implements Mapper {
 	logger.info(text.substring(text.indexOf(":") + 1));
     }
 
+    /* (non-Javadoc)
+     * @see persistence.IMusicDAO#getMusics()
+     */
+    @Override
     public Music[] getMusics() {
 	if (musics == null)
 	    loadMusics();
