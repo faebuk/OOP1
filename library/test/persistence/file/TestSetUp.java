@@ -1,6 +1,8 @@
-package library.persistence.memory;
+package persistence.file;
 
 import library.admin.Administration;
+import library.admin.ItemNotAvailableException;
+import library.admin.NoItemsFoundException;
 import library.data.Book;
 import library.data.BookItem;
 import library.data.Customer;
@@ -11,15 +13,13 @@ import library.data.JournalItem;
 import library.data.Music;
 import library.data.MusicItem;
 import persistence.AbstractFactory;
-import persistence.file.FileDAOFactory;
-import persistence.memory.MemoryDAOFactory;
 
 public class TestSetUp {
 
-	public static Administration testSetUp() {
+	public static Administration testSetUp() throws NoItemsFoundException, ItemNotAvailableException {
 		Administration admin = Administration.getInstance();
-		AbstractFactory daoFactory = new MemoryDAOFactory();
-     
+		AbstractFactory daoFactory = new FileDAOFactory();
+
 		long counter = 1;
 		int max = 15;
 		Book[] books = daoFactory.createBookDAO().getBooks();
@@ -52,7 +52,7 @@ public class TestSetUp {
 
 		Customer[] customers = daoFactory.createCustomerDAO().getCustomers();
 		admin.setCustomers(customers);
-		
+
 		daoFactory.createLendingDAO().getLendings();
 		return admin;
 	}

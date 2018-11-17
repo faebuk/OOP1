@@ -28,7 +28,7 @@ public class DataManager {
 	journalItems = new JournalItem[30];
     }
 
-    public long[] findItemsByArticleNumber(long ean) {
+    public long[] findItemsByArticleNumber(long ean) throws NoItemsFoundException {
 	List<Long> ids = new ArrayList<>();
 
 	Item[] allItems = Utils.concat(bookItems, musicItems, filmItems, journalItems);
@@ -39,19 +39,28 @@ public class DataManager {
 	    }
 	}
 
+	if (ids.size() < 1) {
+	    throw new NoItemsFoundException();
+	}
+
 	return Utils.convertToArray(ids);
     }
 
-    public long[] findItems(String s) {
+    public long[] findItems(String s) throws NoItemsFoundException {
 	long[] result = null;
 	result = Utils.concat(result, findBookItems(s));
 	result = Utils.concat(result, findMusicItems(s));
 	result = Utils.concat(result, findFilmItems(s));
 	result = Utils.concat(result, findJournalItems(s));
+
+	if (result.length < 1) {
+	    throw new NoItemsFoundException();
+	}
+
 	return result;
     }
 
-    public Item findItem(long id) {
+    public Item findItem(long id) throws NoItemsFoundException {
 	Item[] allItems = Utils.concat(bookItems, musicItems, filmItems, journalItems);
 
 	for (Item item : allItems) {
@@ -60,11 +69,11 @@ public class DataManager {
 	    }
 	}
 
-	return null;
+	throw new NoItemsFoundException();
     }
 
     // TODO
-    public <T> long[] findItems(Class<T> type, String string) {
+    public <T> long[] findItems(Class<T> type, String string) throws NoItemsFoundException {
 	List<Long> ids = new ArrayList<>();
 
 	for (long id : this.findItems(string)) {
@@ -75,10 +84,14 @@ public class DataManager {
 	    }
 	}
 
+	if (ids.size() < 1) {
+	    throw new NoItemsFoundException();
+	}
+
 	return Utils.convertToArray(ids);
     }
 
-    public long[] findItems(String title, Actor actor) {
+    public long[] findItems(String title, Actor actor) throws NoItemsFoundException {
 	List<Long> ids = new ArrayList<>();
 
 	for (FilmItem item : filmItems) {
@@ -87,10 +100,14 @@ public class DataManager {
 	    }
 	}
 
+	if (ids.size() < 1) {
+	    throw new NoItemsFoundException();
+	}
+
 	return Utils.convertToArray(ids);
     }
 
-    public long[] findItems(Writer writer) {
+    public long[] findItems(Writer writer) throws NoItemsFoundException {
 	List<Long> ids = new ArrayList<>();
 
 	for (BookItem item : bookItems) {
@@ -99,16 +116,24 @@ public class DataManager {
 	    }
 	}
 
+	if (ids.size() < 1) {
+	    throw new NoItemsFoundException();
+	}
+
 	return Utils.convertToArray(ids);
     }
 
-    public long[] findItems(Actor actor) {
+    public long[] findItems(Actor actor) throws NoItemsFoundException {
 	List<Long> ids = new ArrayList<>();
 
 	for (FilmItem item : filmItems) {
 	    if (this.contains(item.getFilm().getActors(), actor)) {
 		ids.add(item.getId());
 	    }
+	}
+
+	if (ids.size() < 1) {
+	    throw new NoItemsFoundException();
 	}
 
 	return Utils.convertToArray(ids);

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import library.admin.Administration;
+import library.admin.ItemNotAvailableException;
+import library.admin.NoItemsFoundException;
 import library.data.Customer;
 import library.data.Item;
 import library.data.Lending;
@@ -50,7 +52,7 @@ public class LendingDAO extends FileDAO implements Mapper, ILendingDAO {
     }
 
     @Override
-    public Object map(String[] tokens) {
+    public Object map(String[] tokens) throws NumberFormatException, NoItemsFoundException, ItemNotAvailableException {
 	Customer customer = admin.getDataManager().getCustomers()[Integer.parseInt(tokens[0])];
 	Item item = admin.getDataManager().findItem(Integer.parseInt(tokens[1]));
 	// TODO Item item = admin.getDataManager().get; Integer.parseInt(tokens[1]

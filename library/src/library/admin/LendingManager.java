@@ -21,21 +21,28 @@ public class LendingManager {
 	return lendings;
     }
 
-    public boolean addLending(Customer customer, Item item, LocalDate date) {
+    public boolean addLending(Customer customer, Item item, LocalDate date) throws ItemNotAvailableException {
+	assert customer != null && item != null && date != null;
 	if (!item.isAvailable()) {
-	    return false;
+	    throw new ItemNotAvailableException();
 	}
 
 	item.setState(State.LENT);
-	item.setLending(new Lending(customer, item, date));
+	Lending lending = new Lending(customer, item, date);
+	item.setLending(lending);
+
+	this.lendings[lendingCounter++] = lending;
 
 	return true;
     }
 
-    public boolean addLending(Lending lending) {
+    public boolean addLending(Lending lending) throws ItemNotAvailableException {
+	assert lending != null;
 	if (!lending.getItem().isAvailable()) {
-	    return false;
+	    throw new ItemNotAvailableException();
 	}
+
+	this.lendings[lendingCounter++] = lending;
 
 	lending.getItem().setState(State.LENT);
 	lending.getItem().setLending(lending);
@@ -44,6 +51,7 @@ public class LendingManager {
     }
 
     public boolean returnItem(Item item, LocalDate date) {
+	assert item != null;
 	item.setState(State.AVAILABLE);
 	item.getLending().setReturnDate(date);
 
@@ -51,10 +59,11 @@ public class LendingManager {
     }
 
     public boolean isAvailable(Item item) {
+	assert item != null;
 	return item.isAvailable();
     }
 
-    public long[] getAvailableItems(long[] ids) {
+    public long[] getAvailableItems(long[] ids) throws NoAvailableItemsException, NoItemsFoundException {
 	List<Long> result = new ArrayList<>();
 
 	Administration admin = Administration.getInstance();
@@ -63,6 +72,10 @@ public class LendingManager {
 	    if (admin.findItem(id).isAvailable()) {
 		result.add(id);
 	    }
+	}
+
+	if (result.size() < 1) {
+	    throw new NoAvailableItemsException();
 	}
 
 	return Utils.convertToArray(result);
