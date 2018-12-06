@@ -50,7 +50,7 @@ public class SearchScreen extends VBox {
 	allRb.setToggleGroup(stateG);
 	allRb.setUserData("all");
 
-	HBox additionalSearchBox = new HBox(actorPrenameTf, actorSurnameTf);
+	HBox additionalSearchBox = new HBox();
 
 	VBox labels = new VBox();
 	labels.getChildren().addAll(catLabel, searchLabel, actorLabel);
@@ -65,9 +65,19 @@ public class SearchScreen extends VBox {
 	    @Override
 	    public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 		System.out.println(catCb.getItems().get((Integer) number2));
-		switch ((Integer) number2) {
-		case 3:
+		switch (catCb.getItems().get((Integer) number2)) {
+		case "Bücher":
 		    additionalSearchBox.getChildren().setAll(new TextField());
+		    break;
+		case "Zeitschriften":
+		    additionalSearchBox.getChildren().setAll(new TextField());
+		    break;
+		case "Musik":
+		    additionalSearchBox.getChildren().setAll(new TextField());
+		    break;
+		case "Filme":
+		    additionalSearchBox.getChildren().setAll(actorSurnameTf, actorPrenameTf);
+		    break;
 		}
 	    }
 	});

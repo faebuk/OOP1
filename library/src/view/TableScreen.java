@@ -3,6 +3,7 @@ package view;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -52,5 +53,10 @@ public class TableScreen extends VBox {
 	grid.add(c6, 1, 6);
 
 	getChildren().addAll(img, grid);
+    }
+
+    public TableView getTable() {
+	// TODO Auto-generated method stub
+	return null;
     }
 }

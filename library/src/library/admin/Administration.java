@@ -10,12 +10,15 @@ import library.data.Item;
 import library.data.JournalItem;
 import library.data.MusicItem;
 import library.data.Writer;
+import view.Controller;
 
 public class Administration {
     private DataManager dataManager;
     private LendingManager lendingManager;
 
     private static Administration instance;
+
+    private Controller controller;
 
     public static Administration getInstance() {
 	if (instance == null) {
@@ -27,6 +30,7 @@ public class Administration {
     private Administration() {
 	dataManager = new DataManager();
 	lendingManager = new LendingManager();
+	controller = new Controller();
     }
 
     public DataManager getDataManager() {
@@ -107,6 +111,10 @@ public class Administration {
 
     public Customer[] getCustomers() {
 	return this.dataManager.getCustomers();
+    }
+
+    public Controller getController() {
+	return this.controller;
     }
 
 }
